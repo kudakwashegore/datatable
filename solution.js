@@ -1,4 +1,5 @@
 //test data
+//Data example A
 var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benzalkonium Chloride", "price":"481.63" }, { "company_name":"PD-Rx Pharmaceuticals, Inc.", "product":"Alprazolam", "price":"167.62", "fda_date_approved":"02/12/2015" }, { "company_name":"West-ward Pharmaceutical Corp.", "product":"Flumazenil", "fda_date_approved":"23/04/2015" }, { "company_name":"HyVee Inc", "product":"Aspirin", "price":"218.32", "fda_date_approved":"26/07/2015" }, { "company_name":"Aurobindo Pharma Limited", "product":"carisoprodol", "price":"375.58", "fda_date_approved":"28/11/2014" }, { "company_name":"Apotex Corp", "product":"Risperidone", "price":"213.49", "fda_date_approved":"06/11/2015" }, { "company_name":"Unit Dose Services", "product":"Lovastatin", "price":"169.14", "fda_date_approved":"14/09/2015" }, { "company_name":"Jubilant HollisterStier LLC", "product":"Dog Hair Canis spp.", "fda_date_approved":"31/12/2014" }, { "company_name":"AAA Pharmaceutical, Inc.", "product":"ACETAMINOPHEN, CHLORPHENIRAMINE MALEATE, DEXTROMETHORPHAN HYDROBROMIDE, and PHENYLEPHRINE HYDROCHLORIDE", "price":"183.33", "fda_date_approved":"13/12/2015" }, { "company_name":"AKG Innovations LLC", "product":"AVOBENZONE, OCTINOXATE, OCTISALATE", "fda_date_approved":"22/01/2015" }, { "company_name":"hikma Farmaceutica", "product":"Oxytocin" }, { "company_name":"prime Packaging, Inc.", "product":"Avobenzone, Homosalate, Octisalate, Octocrylene, Oxybenzone", "price":"208.17" }, { "company_name":"Davion, Inc", "product":"Triclosan", "price":"80.30", "fda_date_approved":"13/12/2014" }, { "company_name":"CARDINAL HEALTH", "product":"CARBOXYMETHYLCELLULOSE SODIUM, GLYCERIN", "price":"330.22", "fda_date_approved":"11/08/2015" }, { "company_name":"Amgen Inc", "product":"darbepoetin alfa", "price":"332.28", "fda_date_approved":"01/07/2015" }, { "company_name":"Autumn Harp, Inc.", "product":"Salicylic Acid", "price":"34.43", "fda_date_approved":"25/03/2015" }, { "company_name":"American Regent, Inc.", "product":"sodium phosphate, monobasic, monohydrate and sodium phosphate, dibasic anhydrous", "price":"11.60" }, { "company_name":"J. A. Cosmetics U.S. INC", "product":"TITANIUM DIOXIDE", "price":"130.90", "fda_date_approved":"01/12/2015" }, { "company_name":"NATURE REPUBLIC CO., LTD.", "product":"Titanium Dioxide, OCTINOXATE, Zinc Oxide", "price":"124.48" }, { "company_name":"L. Perrigo Company", "product":"Dextromethorphan Hydrobromide, Guaifenesin", "price":"73.09", "fda_date_approved":"03/02/2016" } ];
 
 /*********end of static test data definition*********/
@@ -40,14 +41,20 @@ var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benza
             for(var heading in _this.headings){               
                 th = document.createElement('th');
                 th.appendChild(document.createTextNode(_this.headings[heading]));
+                
+                //done append header to row
                 headerRow.appendChild(th);
+                
+                //bind click event to current th for sorting
                 _this.bindClickSort(th, table);
             }
             
+            //eppennd headerow to table
             table.appendChild(headerRow);
             
             
-            //create data rows
+            //no building the rest of the table, 
+            //create data cells in rows
             for(var i in _this.server_data){
                 tr = document.createElement('tr');
                 
@@ -68,7 +75,7 @@ var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benza
             //set border to table 
             table.setAttribute('border', '1');
             
-            //done building table attach to given cintainer
+            //done building the table, now attach table to given container
             _this.tableContainer.appendChild(table);
         }
     }
@@ -76,7 +83,11 @@ var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benza
     //bind table headers to click event
     MyDataTable.prototype.bindClickSort = function(element, tableElement){
                 var _this = this;
+        
+                //bind click event to element
                 element.addEventListener("click", function(){
+                    
+                    //grab text to use as property name to sort with
                     var sort_column = element.textContent;
                     
                     //sort data according to clicked colums
@@ -95,7 +106,8 @@ var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benza
                         else
                             return seconVal - firstVal;
                     });   
-
+                    
+                    //data array now sorted, rebuild sorted table
                     _this.sortTable(tableElement);
 
                 });
@@ -148,7 +160,7 @@ var testData_1 = [ { "company_name":"Medline Industries, Inc.", "product":"Benza
 //now making use of the library, this can go in another js file
 
 //create a MyDataTable object
-//if loading from a live server, ajax calls can also be done here and the following code bloack can be wraped inside ajax requests block
-//for testing purposes, will use static testData_1 
+//if loading from a live server, ajax calls can also be done here and the following code block can be wrapped inside an ajax requests call
+//for testing purposes, will pass static testData_1 from "Data example A"
 var dataTable = new MyDataTable("data_table", testData_1);
 dataTable.createTable();
